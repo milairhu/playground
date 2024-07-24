@@ -38,8 +38,6 @@ jobs:
       - name: Cloning Playground
         uses: actions/checkout@v4
 
-
-
       - name: Cloning Stream
         if: ${{ inputs.stream-target-version }}
         run: | 
@@ -47,7 +45,7 @@ jobs:
           cd /home/runner/work/playground
           git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/stream.git"
           cd stream
-          git switch tags/${{ inputs.stream-target-version }}
+          git switch tags/v${{ inputs.stream-target-version }}
 
       - name: Cloning Horizon
         if: ${{ inputs.horizon-target-version }}
@@ -56,7 +54,7 @@ jobs:
           /home/runner/work/playground
           git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/horizon.git"
           cd horizon
-          git switch tags/${{ inputs.horizon-target-version }}
+          git switch tags/v${{ inputs.horizon-target-version }}
 
       - name: Running upgrade for both Horizon and Stream
         if: ${{inputs.stream-target-version && inputs.horizon-target-version}}
