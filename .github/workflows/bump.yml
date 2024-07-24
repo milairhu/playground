@@ -45,7 +45,7 @@ jobs:
           cd /home/runner/work/playground
           git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/stream.git"
           cd stream
-          git switch tags/v${{ inputs.stream-target-version }}
+          git checkout tags/v${{ inputs.stream-target-version }} --detach
 
       - name: Cloning Horizon
         if: ${{ inputs.horizon-target-version }}
@@ -54,7 +54,7 @@ jobs:
           /home/runner/work/playground
           git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/horizon.git"
           cd horizon
-          git switch tags/v${{ inputs.horizon-target-version }}
+          git checkout tags/v${{ inputs.horizon-target-version }} --detach
 
       - name: Running upgrade for both Horizon and Stream
         if: ${{inputs.stream-target-version && inputs.horizon-target-version}}
