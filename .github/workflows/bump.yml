@@ -51,7 +51,7 @@ jobs:
         if: ${{ inputs.horizon-target-version }}
         run: |
           pwd
-          /home/runner/work/playground
+          cd /home/runner/work/playground
           git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/horizon.git"
           cd horizon
           git checkout tags/v${{ inputs.horizon-target-version }} --detach
@@ -59,14 +59,14 @@ jobs:
       - name: Running upgrade for both Horizon and Stream
         if: ${{inputs.stream-target-version && inputs.horizon-target-version}}
         run: |
-          ./.build/upgrade.sh \ 
+          ./home/runner/work/playground/playground/.build/upgrade.sh \ 
           --stm_path /home/runner/work/playground/stream \
           --hrz_path /home/runner/work/playground/horizon \ 
           --hrz_source_version ${{ inputs.horizon-source-version }} \
           --hrz_target_version ${{ inputs.horizon-target-version }} \
           --stm_source_version ${{ inputs.stream-source-version }} \ 
           --stm_target_version ${{ inputs.stream-target-version }} \
-          --playground_path .
+          --playground_path /home/runner/work/playground/playground
 
       - name: Running upgrade for Stream
         if: ${{ inputs.stream-target-version }}
@@ -80,13 +80,11 @@ jobs:
       - name: Running upgrade for Horizon
         if: ${{ inputs.horizon-target-version }}
         run: |
-          ls -la ..
-          ls -la
-          ./.build/upgrade.sh \
+          ./home/runner/work/playground/playground/.build/upgrade.sh \
           --hrz_path /home/runner/work/playground/horizon \ 
           --hrz_source_version ${{ inputs.horizon-source-version }} \
           --hrz_target_version ${{ inputs.horizon-target-version }} \
-          --playground_path .
+          --playground_path ./home/runner/work/playground/playground
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
