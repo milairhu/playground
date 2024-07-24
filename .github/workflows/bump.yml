@@ -42,6 +42,12 @@ jobs:
         run: |
           cd ..
           ls
+          pwd
+
+      - name : Test
+        run : |
+          ls
+          pwd
 
       - name: Cloning Stream
         if: ${{ inputs.stream-target-version }}
