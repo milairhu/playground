@@ -158,8 +158,7 @@ else
 fi
 
 # Run the Docker command
-echo $DOCKER_MOUNTS ------ $MONGO_VERSION
-CONTAINER_NAME="$(docker run -d "$DOCKER_MOUNTS" mongo:"$MONGO_VERSION")"
+CONTAINER_NAME="$( docker run -d "$DOCKER_MOUNTS" mongo:"$MONGO_VERSION" )"
 
 echo "Mongo container running"
 
