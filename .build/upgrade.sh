@@ -88,6 +88,8 @@ while [ $# -gt 0 ]; do
   esac
 done
 
+echo "Out of while"
+
 # Runs a_Mongo container
 # $1: $MONGO_VERSION version for the mongo image
 # $2: $DOCKER_MOUNTS different mounting points to the container
