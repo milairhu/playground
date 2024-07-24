@@ -26,8 +26,6 @@ jobs:
 
       - name: Cloning Playground
         uses: actions/checkout@v4
-        with:
-          ref: 6a5d3f3b642d82af9c0ea8be84fc6e86958e3202
 
       - name: Getting out
         run: |
