@@ -15,7 +15,7 @@ HORIZON_UPGRADE_VERSION="" #Mandatory if Horizon path specified
 
 PLAYGROUND_PATH="" #Mandatory if Horizon path specified
 
-MONGO_VERSION="7" #Defines the version for the Mongo image
+MONGO_VERSION="5" #Defines the version for the Mongo image #TODO : remettre à 7?
 CONTAINER_NAME="" #Will be generated automatically by Docker
 
 usage() (
@@ -158,6 +158,7 @@ else
 fi
 
 # Run the Docker command
+echo $DOCKER_MOUNTS $MONGO_VERSION
 run_mongo "$MONGO_VERSION" "$DOCKER_MOUNTS"
 echo "Mongo container running"
 
