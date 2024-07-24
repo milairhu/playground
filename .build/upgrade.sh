@@ -158,7 +158,7 @@ else
 fi
 
 # Run the Docker command
-echo $DOCKER_MOUNTS $MONGO_VERSION
+echo $DOCKER_MOUNTS ------ $MONGO_VERSION
 run_mongo "$MONGO_VERSION" "$DOCKER_MOUNTS"
 echo "Mongo container running"
 
