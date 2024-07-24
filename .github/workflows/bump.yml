@@ -59,7 +59,7 @@ jobs:
       - name: Running upgrade for both Horizon and Stream
         if: ${{inputs.stream-target-version && inputs.horizon-target-version}}
         run: |
-          ./home/runner/work/playground/playground/.build/upgrade.sh \ 
+          /home/runner/work/playground/playground/.build/upgrade.sh \ 
           --stm_path /home/runner/work/playground/stream \
           --hrz_path /home/runner/work/playground/horizon \ 
           --hrz_source_version ${{ inputs.horizon-source-version }} \
@@ -80,7 +80,7 @@ jobs:
       - name: Running upgrade for Horizon
         if: ${{ inputs.horizon-target-version }}
         run: |
-          ./home/runner/work/playground/playground/.build/upgrade.sh \
+          /home/runner/work/playground/playground/.build/upgrade.sh \
           --hrz_path /home/runner/work/playground/horizon \ 
           --hrz_source_version ${{ inputs.horizon-source-version }} \
           --hrz_target_version ${{ inputs.horizon-target-version }} \
