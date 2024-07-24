@@ -159,7 +159,8 @@ fi
 
 # Run the Docker command
 echo $DOCKER_MOUNTS ------ $MONGO_VERSION
-run_mongo "$MONGO_VERSION" "$DOCKER_MOUNTS"
+CONTAINER_NAME=docker run -d "$DOCKER_MOUNTS" mongo:"$MONGO_VERSION"
+
 echo "Mongo container running"
 
 if [ "$STREAM_TO_UPDATE" ] ; then
