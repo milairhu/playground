@@ -30,18 +30,12 @@ jobs:
 
     steps:
 
-      - name: Mkdir Playground
-        run: |
-          mkdir root
-          ls
-
       - name: Cloning Playground
         uses: actions/checkout@v4
 
       - name: Cloning Stream
         if: ${{ inputs.stream-target-version }}
         run: | 
-          pwd
           cd /home/runner/work/playground
           git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/stream.git"
           cd stream
@@ -50,7 +44,6 @@ jobs:
       - name: Cloning Horizon
         if: ${{ inputs.horizon-target-version }}
         run: |
-          pwd
           cd /home/runner/work/playground
           git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/horizon.git"
           cd horizon

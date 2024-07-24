@@ -32,6 +32,8 @@ usage() (
     printf "  -m, --mongo_version <vers> Set the version for the Docker Mongo image"
 )
 
+echo "Upgrade script for the Playground"
+
 while [ $# -gt 0 ]; do
   case $1 in
     -h|--help)
@@ -115,6 +117,7 @@ if [ -n "$STREAM_PATH" ]; then
     else
       STREAM_TO_UPDATE=true
       DOCKER_MOUNTS="$DOCKER_MOUNTS -v $STREAM_PATH/src:/stream"
+      echo "Stream to update"
   fi
 fi
 
@@ -132,6 +135,7 @@ if [ -n "$HORIZON_PATH" ]; then
   else
     HORIZON_TO_UPDATE=true
     DOCKER_MOUNTS="$DOCKER_MOUNTS -v $HORIZON_PATH/src:/horizon"
+    echo "Horizon to update"
   fi
 fi
 
@@ -147,10 +151,12 @@ then
   exit 1
 else
   DOCKER_MOUNTS="$DOCKER_MOUNTS -v $PLAYGROUND_PATH:/playground"
+  echo "Playground path set"
 fi
 
 # Run the Docker command
 run_mongo "$MONGO_VERSION" "$DOCKER_MOUNTS"
+echo "Mongo container running"
 
 if [ "$STREAM_TO_UPDATE" ] ; then
   docker exec "$CONTAINER_NAME" mongorestore --db stream /playground/database/dump/stream
@@ -159,6 +165,7 @@ if [ "$STREAM_TO_UPDATE" ] ; then
   docker exec "$CONTAINER_NAME" mongodump --out=/playground/database/dump mongodb://localhost:27017/stream
   docker exec "$CONTAINER_NAME" sed -i "s/stream:$STREAM_SOURCE_VERSION/stream:$STREAM_UPGRADE_VERSION/" "/playground/$DOCKER_COMPOSE_FILE"
 fi
+echo "Stream updated"
 
 if [ "$HORIZON_TO_UPDATE" ] ; then
   docker exec "$CONTAINER_NAME" mongorestore --db horizon /playground/database/dump/horizon
@@ -167,6 +174,9 @@ if [ "$HORIZON_TO_UPDATE" ] ; then
   docker exec "$CONTAINER_NAME" mongodump --out=/playground/database/dump mongodb://localhost:27017/horizon
   docker exec "$CONTAINER_NAME" sed -i "s/horizon:$HORIZON_SOURCE_VERSION/horizon:$HORIZON_UPGRADE_VERSION/" "/playground/$DOCKER_COMPOSE_FILE"
 fi
+echo "Horizon updated"
 
 docker stop "$CONTAINER_NAME" && docker rm "$CONTAINER_NAME"
+echo "Mongo container stopped and removed"
+echo "Upgrade script finished"
 
