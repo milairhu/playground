@@ -40,7 +40,6 @@ jobs:
 
       - name: Getting out
         run: |
-          ls
           cd ..
           ls
 
