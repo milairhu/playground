@@ -35,6 +35,7 @@ usage() (
 echo "Upgrade script for the Playground"
 
 while [ $# -gt 0 ]; do
+  echo "TEST  : " $# $1 $2
   case $1 in
     -h|--help)
       usage
