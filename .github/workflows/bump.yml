@@ -38,46 +38,32 @@ jobs:
       - name: Cloning Playground
         uses: actions/checkout@v4
 
-      - name: Getting out
-        run: |
-          cd ..
-          ls
-          pwd
 
-      - name : Test
-        run : |
-          ls
-          pwd
 
       - name: Cloning Stream
         if: ${{ inputs.stream-target-version }}
         run: | 
+          pwd
+          cd /home/runner/work/playground
           git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/stream.git"
           cd stream
           git switch tags/${{ inputs.stream-target-version }}
-          cd ..
 
       - name: Cloning Horizon
         if: ${{ inputs.horizon-target-version }}
         run: |
+          pwd
+          /home/runner/work/playground
           git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/horizon.git"
           cd horizon
           git switch tags/${{ inputs.horizon-target-version }}
-          cd ..
-          ls
-
-      - name: Getting in
-        run: |
-          ls
-          pwd
-          cd playground
 
       - name: Running upgrade for both Horizon and Stream
         if: ${{inputs.stream-target-version && inputs.horizon-target-version}}
         run: |
           ./.build/upgrade.sh \ 
-          --stm_path ../stream \
-          --hrz_path ../horizon \ 
+          --stm_path /home/runner/work/playground/stream \
+          --hrz_path /home/runner/work/playground/horizon \ 
           --hrz_source_version ${{ inputs.horizon-source-version }} \
           --hrz_target_version ${{ inputs.horizon-target-version }} \
           --stm_source_version ${{ inputs.stream-source-version }} \ 
@@ -88,7 +74,7 @@ jobs:
         if: ${{ inputs.stream-target-version }}
         run: |
           ./.build/upgrade.sh \ 
-          --stm_path ../stream \
+          --stm_path /home/runner/work/playground/stream \
           --stm_source_version ${{ inputs.stream-source-version }}  \ 
           --stm_target_version ${{ inputs.stream-target-version }} \
           --playground_path .
@@ -99,7 +85,7 @@ jobs:
           ls -la ..
           ls -la
           ./.build/upgrade.sh \
-          --hrz_path ../horizon \ 
+          --hrz_path /home/runner/work/playground/horizon \ 
           --hrz_source_version ${{ inputs.horizon-source-version }} \
           --hrz_target_version ${{ inputs.horizon-target-version }} \
           --playground_path .
