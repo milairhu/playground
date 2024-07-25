@@ -31,8 +31,8 @@ jobs:
           cd ..
           echo "ROOT_PATH=$(pwd)" >> $GITHUB_ENV
 
-      - name: Cloning Playground
-        uses: actions/checkout@v4
+#      - name: Cloning Playground
+#        uses: actions/checkout@v4
 
       - name: Get repository absolute path
         run: echo "REPO_PATH=$(pwd)" >> $GITHUB_ENV
