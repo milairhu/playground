@@ -27,7 +27,9 @@ jobs:
     steps:
 
       - name: Get root absolute path
-        run: echo "ROOT_PATH=$(pwd)" >> $GITHUB_ENV
+        run: |
+          cd ..
+          echo "ROOT_PATH=$(pwd)" >> $GITHUB_ENV
 
       - name: Cloning Playground
         uses: actions/checkout@v4
