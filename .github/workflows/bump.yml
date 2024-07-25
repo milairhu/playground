@@ -71,7 +71,7 @@ jobs:
 
       - name: Grant rights
         run: |
-          chown -R $USER:$USER /home/runner/work/playground/playground
+          sudo chown -R $USER:$USER /home/runner/work/playground/playground
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
