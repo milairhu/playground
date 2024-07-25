@@ -1,13 +1,5 @@
 name: bump
 
-#act -W ".github/workflows/bump.yml" --container-architecture linux/amd64 --input horizon-source-version=2.5.7 horizon-target-version=2.5.9
-
-# TODO replace
-# 2.0.0 by ${{ inputs.stream-target-version }}
-# 2.5.7 by ${{ inputs.horizon-target-version }}
-# 1.2.1 by ${{ inputs.stream-source-version }}
-# 2.5.0 by ${{ inputs.horizon-source-version }}
-
 on:
   workflow_dispatch:
     inputs:
@@ -42,6 +34,11 @@ jobs:
 
       - name: Get repository absolute path
         run: echo "REPO_PATH=$(pwd)" >> $GITHUB_ENV
+
+      - name: Display values
+        run: |
+          echo "ROOT_PATH: ${{ env.ROOT_PATH }}"
+          echo "REPO_PATH: ${{ env.REPO_PATH }}"
 
       - name: Cloning Stream
         if: ${{ inputs.stream-target-version }}
