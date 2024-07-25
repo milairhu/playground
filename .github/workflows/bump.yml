@@ -39,17 +39,13 @@ jobs:
         if: ${{ inputs.stream-target-version }}
         run: | 
           cd /home/runner/work/playground
-          git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/stream.git"
-          cd stream
-          git checkout tags/v${{ inputs.stream-target-version }} --detach
+          git clone -b v${{ inputs.stream-target-version }} "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/stream.git"
 
       - name: Cloning Horizon
         if: ${{ inputs.horizon-target-version }}
         run: |
           cd /home/runner/work/playground
-          git clone "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/horizon.git"
-          cd horizon
-          git checkout tags/v${{ inputs.horizon-target-version }} --detach
+          git clone -b v${{ inputs.horizon-target-version }} "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/horizon.git"
 
       - name: Running upgrade for both Horizon and Stream
         if: ${{ inputs.stream-target-version && inputs.horizon-target-version }}
