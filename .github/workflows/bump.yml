@@ -33,37 +33,41 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-#      - uses: docker-practice/actions-setup-docker@master
-#        timeout-minutes: 12
+
+      - name: Get root absolute path
+        run: echo "ROOT_PATH=$(pwd)" >> $GITHUB_ENV
 
       - name: Cloning Playground
         uses: actions/checkout@v4
 
+      - name: Get repository absolute path
+        run: echo "REPO_PATH=$(pwd)" >> $GITHUB_ENV
+
       - name: Cloning Stream
         if: ${{ inputs.stream-target-version }}
         run: | 
-          cd /home/runner/work/playground
+          cd ${{ env.ROOT_PATH }}
           git clone -b v${{ inputs.stream-target-version }} "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/stream.git"
 
       - name: Cloning Horizon
         if: ${{ inputs.horizon-target-version }}
         run: |
-          cd /home/runner/work/playground
+          cd ${{ env.ROOT_PATH }}
           git clone -b v${{ inputs.horizon-target-version }} "https://milairhu:${{ secrets.API_TOKEN_GITLAB }}@gitlab.com/evertrust/horizon.git"
 
       - name: Running upgrade for both Horizon and Stream
         if: ${{ inputs.stream-target-version && inputs.horizon-target-version }}
         run: |
-          /home/runner/work/playground/playground/.build/upgrade.sh --stm_path /home/runner/work/playground/stream --hrz_path /home/runner/work/playground/horizon --hrz_source_version ${{ inputs.horizon-source-version }} --hrz_target_version ${{ inputs.horizon-target-version }} --stm_source_version ${{ inputs.stream-source-version }} --stm_target_version ${{ inputs.stream-target-version }} --playground_path /home/runner/work/playground/playground
+          ${{ env.REPO_PATH }}/.build/upgrade.sh --stm_path ${{ env.ROOT_PATH }}/stream --hrz_path /home/runner/work/playground/horizon --hrz_source_version ${{ inputs.horizon-source-version }} --hrz_target_version ${{ inputs.horizon-target-version }} --stm_source_version ${{ inputs.stream-source-version }} --stm_target_version ${{ inputs.stream-target-version }} --playground_path ${{ env.REPO_PATH }}
 
       - name: Running upgrade for Stream
         if: ${{ inputs.stream-target-version && !inputs.horizon-target-version }}
         run: |
-          /home/runner/work/playground/playground/.build/upgrade.sh --stm_path /home/runner/work/playground/stream --stm_source_version ${{ inputs.stream-source-version }} --stm_target_version ${{ inputs.stream-target-version }} --playground_path /home/runner/work/playground/playground/
+          ${{ env.REPO_PATH }}/.build/upgrade.sh --stm_path ${{ env.ROOT_PATH }}/stream --stm_source_version ${{ inputs.stream-source-version }} --stm_target_version ${{ inputs.stream-target-version }} --playground_path ${{ env.REPO_PATH }}
 
       - name: Running upgrade for Horizon
         if: ${{ inputs.horizon-target-version  && !inputs.stream-target-version }}
-        run: /home/runner/work/playground/playground/.build/upgrade.sh --hrz_path /home/runner/work/playground/horizon --hrz_source_version ${{ inputs.horizon-source-version }} --hrz_target_version ${{ inputs.horizon-target-version }} --playground_path /home/runner/work/playground/playground
+        run: ${{ env.REPO_PATH }}/.build/upgrade.sh --hrz_path ${{ env.ROOT_PATH }}/horizon --hrz_source_version ${{ inputs.horizon-source-version }} --hrz_target_version ${{ inputs.horizon-target-version }} --playground_path ${{ env.REPO_PATH }}
 
       - name: Log status
         run: |
@@ -71,7 +75,7 @@ jobs:
 
       - name: Grant rights
         run: |
-          sudo chown -R $USER:$USER /home/runner/work/playground/playground
+          sudo chown -R $USER:$USER ${{ env.REPO_PATH }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
