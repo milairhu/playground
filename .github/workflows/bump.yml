@@ -65,6 +65,10 @@ jobs:
         if: ${{ inputs.horizon-target-version  && !inputs.stream-target-version }}
         run: /home/runner/work/playground/playground/.build/upgrade.sh --hrz_path /home/runner/work/playground/horizon --hrz_source_version ${{ inputs.horizon-source-version }} --hrz_target_version ${{ inputs.horizon-target-version }} --playground_path /home/runner/work/playground/playground
 
+      - name: Log status
+        run: |
+          git status
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
         with:
